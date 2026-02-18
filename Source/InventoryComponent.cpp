@@ -106,3 +106,35 @@ int32 UInventoryComponent::GetItemAmount(UInventoryItemData* ItemData) const {
 
     return 0;
 }
+
+// Saves inventory data to an array for use in game saves.
+TArray<FInventoryData> UInventoryComponent::SaveInventory() const {
+    TArray<FInventoryData> SavedInventory;
+
+    // Converts each inventory item to a savable format
+    for (const FInventoryItem& Item : Items) {
+        FInventoryData NewItem;
+        NewItem.ItemData = Item.ItemData;
+        NewItem.Quantity = Item.Quantity;
+        SavedInventory.Add(NewItem);
+    }
+
+    return SavedInventory;
+}
+
+// Loads inventory data from a saved inventory array
+void UInventoryComponent::LoadInventory(const TArray<FInventoryData>& SavedInventory) {
+    ClearInventory();
+
+    for (const FInventoryData& Item : SavedInventory) {
+        if (Item.ItemData) {
+            AddItem(Item.ItemData, Item.Quantity);
+        }
+    }
+}
+
+// Clears inventory contents
+void UInventoryComponent::ClearInventory() {
+    Items.Empty();
+    OnInventoryChanged.Broadcast();
+}
