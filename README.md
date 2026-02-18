@@ -2,7 +2,7 @@
 
 This repository showcases the core C++ systems developed for my Unreal Engine 5 game “The Core: Lockdown”. The full game source code cannot be made public due to licensed assets.
 
-**Playable game:** [The Core: Lockdown](https://devname.itch.io/gamename)
+**Playable game:** [The Core: Lockdown](https://thecoredev.itch.io/the-core-lockdown)
 
 ---
 
