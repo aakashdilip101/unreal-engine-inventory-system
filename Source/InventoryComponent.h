@@ -10,9 +10,19 @@
 // Delegate for inventory change events that blueprints (such as inventory UI) can bind to.
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnInventoryChanged);
 
+USTRUCT(BlueprintType)
+struct FInventoryData {
+    GENERATED_BODY()
+
+    UPROPERTY()
+    UInventoryItemData* ItemData;
+
+    UPROPERTY()
+    int32 Quantity;
+};
+
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
-class COMP3421_API UInventoryComponent : public UActorComponent
-{
+class COMP3421_API UInventoryComponent : public UActorComponent {
     GENERATED_BODY()
 
 public:
@@ -41,6 +51,19 @@ public:
     // Returns all items in a given catergory (Used for organisation in UI)
     UFUNCTION(BlueprintCallable)
     TArray<FInventoryItem> GetItemsByCategory(EItemCategory Category) const;
+
+    // Returns the inventory in an appropriate format for saving
+    UFUNCTION(BlueprintCallable)
+    TArray<FInventoryData> SaveInventory() const;
+
+    // Loads inventory from input save data
+    UFUNCTION(BlueprintCallable)
+    void LoadInventory(const TArray<FInventoryData>& SavedItems);
+
+    // Clears the current inventory
+    UFUNCTION(BlueprintCallable)
+    void ClearInventory();
+
 
 protected:
     virtual void BeginPlay() override;
